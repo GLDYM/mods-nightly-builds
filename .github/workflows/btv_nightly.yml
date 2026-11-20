@@ -1,4 +1,4 @@
-name: Build Nightly
+name: Build Beyond the veil Nightly
 on:
   workflow_dispatch:
 

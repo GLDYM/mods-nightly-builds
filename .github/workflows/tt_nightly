@@ -1,0 +1,38 @@
+name: Build Thaumaturge Nightly
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    
+      - name: Checkout Thaumaturge Repository
+        uses: actions/checkout@v7
+        with:
+          repository: 'Leclowndu93150/Thaumaturge'
+          ref: '1.21.1'
+          submodules: true
+          
+      - name: Setup Java
+        uses: actions/setup-java@v6
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'gradle'
+          
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+        with:
+          gradle-version: "9.7"
+          
+      - name: Build with Gradle
+        run: |
+          chmod 777 gradlew
+          ./gradlew build
+
+      - name: Upload
+        uses: actions/upload-artifact@v7
+        with:
+          name: nightly
+          path: build/libs/*.jar
